@@ -1,0 +1,7 @@
+{
+  "name": "local-mods",
+  "owner": { "name": "Azer Hamdaoui" },
+  "plugins": [
+    { "name": "usage-hint", "source": "./usage-hint", "description": "Shows 5h and 7d rate-limit usage and time to reset beside the prompt hint" }
+  ]
+}
