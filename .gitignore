@@ -1,0 +1,10 @@
+# Types the engine writes when it loads the mod
+.claude-plugin/types/
+usage-hint/.claude-plugin/types/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.log
