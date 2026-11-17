@@ -1,6 +1,6 @@
 import { expect, test } from 'claude-code/testing'
 
-import { formatLimits, remaining, segmentLimits, usageColor } from './format'
+import { formatLimits, newerSnapshot, remaining, segmentLimits, usageColor } from './format'
 
 const now = Date.parse('2026-10-11T12:00:00Z')
 
@@ -31,7 +31,17 @@ test('usageColor runs gray to red', () => {
 })
 
 test('segmentLimits resets to 0% and restarts countdown after reset', () => {
-  const [seg] = segmentLimits([{ kind: 'five_hour', percentUsed: 97, resetsAt: '2026-10-11T11:00:00Z' }], now)
+  const seg = segmentLimits([{ kind: 'five_hour', percentUsed: 97, resetsAt: '2026-10-11T11:00:00Z' }], now)[0]!
   expect(seg.pct).toBe(0)
   expect(seg.text).toBe('5h 0% 4h0m')
+})
+
+test('newerSnapshot keeps the later reading', () => {
+  const old = { at: 1, limits: [] }
+  const fresh = { at: 2, limits: [] }
+  expect(newerSnapshot(old, fresh)).toBe(fresh)
+  expect(newerSnapshot(fresh, old)).toBe(fresh)
+  expect(newerSnapshot(null, old)).toBe(old)
+  expect(newerSnapshot(old, null)).toBe(old)
+  expect(newerSnapshot(null, null)).toBe(null)
 })

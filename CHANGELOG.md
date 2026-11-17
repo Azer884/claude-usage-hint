@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0 - 2026-11-17
+
+- Open sessions on the same machine share the newest reading through the mod's store and redraw together on the quarter hour.
+
 ## 0.2.0 - 2026-11-17
 
 - The usage line is redrawn every 15 minutes instead of every 30 seconds and after each API response.

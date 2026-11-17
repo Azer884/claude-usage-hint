@@ -40,10 +40,16 @@ In the desktop app: click **+** next to the prompt box, then **Plugins**, **Add 
 ## How often it updates
 
 - The line is drawn once when a session starts.
-- After that it is redrawn **every 15 minutes**.
+- After that it is redrawn **every 15 minutes, on the quarter hour** (:00, :15, :30, :45).
 - Each API response records the latest limits, but the line only shows them at the next redraw. Percentages and countdowns can be up to 15 minutes old.
 
-To change the interval, edit the `$.clock.every(...)` call in [`usage-hint/hooks/register.tsx`](usage-hint/hooks/register.tsx).
+### Sync across terminals
+
+Every Claude Code session on the same machine shares one reading. When any session gets an API response, it saves the limits to the mod's store (a JSON file under your Claude Code config directory). At each quarter hour, every open session draws the newest saved reading, so all terminals show the same numbers at the same time.
+
+A newly opened session shows the newest saved reading straight away, before it has made any request of its own.
+
+To change the interval, edit `PERIOD_MS` in [`usage-hint/hooks/register.tsx`](usage-hint/hooks/register.tsx).
 
 ## Repository layout
 

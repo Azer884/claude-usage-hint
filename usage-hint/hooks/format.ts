@@ -42,6 +42,16 @@ export function formatLimits(limits: readonly SessionRateLimit[], now: number): 
 
 export type UsageSegment = { text: string; pct: number }
 
+// A reading of the limits and when it arrived (ms since the epoch).
+export type Snapshot = { at: number; limits: readonly SessionRateLimit[] }
+
+// The later of two readings; `a` on a tie.
+export function newerSnapshot(a: Snapshot | null, b: Snapshot | null): Snapshot | null {
+  if (!a) return b
+  if (!b) return a
+  return b.at > a.at ? b : a
+}
+
 // One segment per window so each can be colored by its own percentage.
 export function segmentLimits(limits: readonly SessionRateLimit[], now: number): UsageSegment[] {
   return ['five_hour', 'seven_day'].flatMap(kind => {

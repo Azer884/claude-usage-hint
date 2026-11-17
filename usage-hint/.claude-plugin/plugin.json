@@ -1,1 +1,1 @@
-{ "name": "usage-hint", "version": "0.2.0", "description": "Shows 5h and 7d rate-limit usage and time to reset beside the prompt hint (auto mode on)", "types": "./types/index.d.ts" }
+{ "name": "usage-hint", "version": "0.3.0", "description": "Shows 5h and 7d rate-limit usage and time to reset beside the prompt hint (auto mode on)", "types": "./types/index.d.ts" }
