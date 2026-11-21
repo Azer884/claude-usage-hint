@@ -1,6 +1,6 @@
 import { expect, test } from 'claude-code/testing'
 
-import { formatLimits, newerSnapshot, remaining, segmentLimits, usageColor } from './format'
+import { formatLimits, isFreshReading, newerSnapshot, remaining, segmentLimits, usageColor } from './format'
 
 const now = Date.parse('2026-10-11T12:00:00Z')
 
@@ -44,4 +44,14 @@ test('newerSnapshot keeps the later reading', () => {
   expect(newerSnapshot(null, old)).toBe(old)
   expect(newerSnapshot(old, null)).toBe(old)
   expect(newerSnapshot(null, null)).toBe(null)
+})
+
+test('isFreshReading only takes measures where the limits moved', () => {
+  const limits = [{ kind: 'five_hour', percentUsed: 3, resetsAt: '2026-10-11T16:00:00Z' }]
+  expect(isFreshReading(['rateLimits', 'cost'], limits)).toBe(true)
+  // Only cost or context moved: the limits are the last response's, maybe stale.
+  expect(isFreshReading(['cost'], limits)).toBe(false)
+  expect(isFreshReading(['context'], limits)).toBe(false)
+  // No reading at all must never overwrite the shared one.
+  expect(isFreshReading(['rateLimits'], [])).toBe(false)
 })

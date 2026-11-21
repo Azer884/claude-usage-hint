@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 - 2026-11-21
+
+- Fixed: after a usage reset, other open terminals kept the old numbers. A session no longer stamps an old reading as new when only its context or cost moved, so it cannot overwrite the fresh reading another session shared. An empty reading is never shared.
+- Each session checks the shared reading every minute and redraws as soon as a newer one arrives, so a reset reaches every terminal within a minute.
+- A session draws its own new reading at once instead of waiting for the quarter hour.
+
 ## 0.3.0 - 2026-11-17
 
 - Open sessions on the same machine share the newest reading through the mod's store and redraw together on the quarter hour.

@@ -45,6 +45,14 @@ export type UsageSegment = { text: string; pct: number }
 // A reading of the limits and when it arrived (ms since the epoch).
 export type Snapshot = { at: number; limits: readonly SessionRateLimit[] }
 
+// Whether a `session.measure` carries a fresh reading worth sharing. A measure
+// also fires when only the context or cost moved; its `rateLimits` are then
+// the last response's, maybe from before a reset another session already saw.
+// Stamping those as new would overwrite the newer shared reading.
+export function isFreshReading(changed: readonly string[], limits: readonly SessionRateLimit[]): boolean {
+  return limits.length > 0 && changed.includes('rateLimits')
+}
+
 // The later of two readings; `a` on a tie.
 export function newerSnapshot(a: Snapshot | null, b: Snapshot | null): Snapshot | null {
   if (!a) return b
